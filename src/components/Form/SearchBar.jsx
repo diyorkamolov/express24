@@ -13,6 +13,7 @@ const SearchBar = ({ handleSubmit, query, isLoading, setQuery }) => {
           alignItems: "center",
           justifyContent: "center",
           textAlign: "center",
+          display: "none"
         }}
         type="text"
         value={query}

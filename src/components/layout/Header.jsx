@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
@@ -7,8 +8,11 @@ import Grid from "@mui/material/Grid"; // Import Grid
 import Modal from "@mui/material/Modal";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import * as React from "react";
 import { NavLink } from "react-router-dom";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import LanguageIcon from "@mui/icons-material/Language";
+import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const style = {
   position: "absolute",
@@ -23,9 +27,16 @@ const style = {
 };
 
 export default function ButtonAppBar() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [showLanguages, setShowLanguages] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleClear = () => setSearchValue("");
+  const toggleLanguages = () => setShowLanguages(!showLanguages);
+  const toggleLogin = () => setShowLogin(!showLogin);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -44,18 +55,46 @@ export default function ButtonAppBar() {
                 <NavLink to={"/"}>Home</NavLink>
                 <NavLink to={"/about"}>About</NavLink>
                 <NavLink to={"/photos"}>Photos</NavLink>
-                
-                <input
-                  style={{
-                    width: "35%",
-                    height: "6vh",
-                    borderRadius: "10px",
-                    border: "1px solid gray",
-                    textAlign: "center",
-                  }}
-                  type="text"
-                  placeholder="taom,tovar,oshxona"
-                />
+
+                <Box sx={{ position: "relative", width: "35%" }}>
+                  <SearchIcon
+                    sx={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "10px",
+                      transform: "translateY(-50%)",
+                      color: "gray",
+                    }}
+                  />
+                  <input
+                    style={{
+                      width: "100%",
+                      height: "6vh",
+                      borderRadius: "10px",
+                      border: "1px solid gray",
+                      paddingLeft: "40px",
+                      textAlign: "center",
+                      borderColor: "gray",
+                    }}
+                    type="text"
+                    placeholder="Muassasa,taom,tovar va oshxona"
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                  />
+                  {searchValue && (
+                    <ClearIcon
+                      sx={{
+                        position: "absolute",
+                        top: "50%",
+                        right: "10px",
+                        transform: "translateY(-50%)",
+                        color: "gray",
+                        cursor: "pointer",
+                      }}
+                      onClick={handleClear}
+                    />
+                  )}
+                </Box>
                 <button
                   style={{
                     height: "6vh",
@@ -83,7 +122,16 @@ export default function ButtonAppBar() {
                 </Button>
               </Box>
             </Grid>
-            <Grid item xs={2} />
+            <Grid item xs={2}>
+              <Box sx={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
+                <Button color="inherit" startIcon={<LanguageIcon />} onClick={toggleLanguages}>
+                  English
+                </Button>
+                <Button color="inherit" startIcon={<AccountCircleIcon />} onClick={toggleLogin}>
+                  Profile
+                </Button>
+              </Box>
+            </Grid>
           </Grid>
 
           <Modal
@@ -109,7 +157,41 @@ export default function ButtonAppBar() {
             </Fade>
           </Modal>
 
-          <Button color="inherit">Login</Button>
+          {showLanguages && (
+            <Box sx={{ position: "absolute", top: "100%", right: 0, mt: 1, p: 1, bgcolor: "#fff", boxShadow: 2 }}>
+              <Button color="inherit" startIcon={<LanguageIcon />}>
+                Uzbek
+              </Button>
+              <Button color="inherit" startIcon={<LanguageIcon />}>
+                Russian
+              </Button>
+            </Box>
+          )}
+
+          {showLogin && (
+            <Modal
+              aria-labelledby="transition-modal-title"
+              aria-describedby="transition-modal-description"
+              open={showLogin}
+              onClose={toggleLogin}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+              }}
+            >
+              <Fade in={showLogin}>
+                <Box sx={style}>
+                  <Typography id="transition-modal-title" variant="h6" component="h2">
+                    Login
+                  </Typography>
+                  <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+                    {/* Your login form goes here */}
+                  </Typography>
+                </Box>
+              </Fade>
+            </Modal>
+          )}
         </Toolbar>
       </AppBar>
     </Box>

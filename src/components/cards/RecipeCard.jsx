@@ -6,28 +6,33 @@ const RecipeCard = ({ recipe }) => {
   const { idMeal, strMeal, strCategory, strMealThumb } = recipe;
 
   return (
-    <Box maxWidth={"md"} margin="auto" marginTop={6}>
-      <Box marginBottom={4}>
+  <>
+    
+    <Box maxWidth={"lg"} margin="auto" marginTop={6}>
+      
+      <Box marginBottom={-4}  >
         <Box
-          width={368}
-          height={"33vh"}
+          width={438}
+          height={"40vh"}
           bgcolor={"#fff"}
           borderRadius={"20px 20px 20px 20px"}
           boxShadow={4}
           overflow="hidden"
-            
+          
+
         >
-          <img style={{ width: "100%", height: "20vh", objectFit: "cover" }} src={strMealThumb} alt={strMeal} />
+          <img style={{ width: "100%", height: "28vh", objectFit: "cover" }} src={strMealThumb} alt={strMeal} />
 
           <div style={{ padding: "", flexDirection: "column", display: "flex" }}>
             <h2>{strMeal}</h2>
             <span>{strCategory}</span>
 
-            <NavLink to={`/store/${idMeal}` }>More</NavLink>
+            <NavLink to={`/store/${idMeal}`}>More</NavLink>
           </div>
         </Box>
       </Box>
     </Box>
+    </>
   );
 };
 
